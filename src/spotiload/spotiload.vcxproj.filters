@@ -40,6 +40,9 @@
     <ClInclude Include="utf8.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="appkey.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
