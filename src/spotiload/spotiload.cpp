@@ -8,6 +8,8 @@
 
 #include "image.h"
 
+#include "appkey.h"
+
 #ifdef _WIN32
 #pragma comment(lib, "../external/libspotify/lib/libspotify.lib")
 #endif
@@ -19,7 +21,9 @@ static size_t								g_playDurationSecs			= 0xffffffff;
 static STrackData							g_currentTrackData;
 static bool									m_loggedIn					= false;
 static Options								g_options;
-static std::vector<unsigned char>			g_appkey;
+//std::vector<unsigned char> v ( a, a + n );
+
+static std::vector<unsigned char>			g_appkey (embed_appkey, embed_appkey + sizeof(embed_appkey));
 
 static sp_session_config					g_spotify_session_config;
 static sp_session_callbacks					g_session_callbacks;
@@ -1001,16 +1005,28 @@ int main(int argc, char* argv[])
 	g_playlist_callbacks.track_message_changed = &onSpotifyPlaylistTrackMessageChanged;
 	g_playlist_callbacks.subscribers_changed = &onSpotifyPlaylistSubscribersChanged;
 
-	FILE* hFile = AudioWriter::myfopen( g_options.appkeyFilename, "rb" );
-	if( !hFile )
-		ERROR_EXIT( "Unable to load application key, errno " << errno );
+	//FILE* hFile = AudioWriter::myfopen( g_options.appkeyFilename, "rb" );
+	//if( !hFile )
+	//	ERROR_EXIT( "Unable to load application key, errno " << errno );
 
+	/*
 	fseek( hFile, 0, SEEK_END );
 	size_t appkeySize = ftell( hFile );
 	fseek( hFile, 0, SEEK_SET );
 	g_appkey.resize( appkeySize );
 	fread( &g_appkey[0], appkeySize, 1, hFile );
 	fclose(hFile);
+	*/
+
+	size_t appkeySize = (size_t) sizeof(embed_appkey);
+	//g_appkey.resize(appkeySize);
+	//g_appkey.assign(embed_appkey, embed_appkey + 1);
+	//g_appkey = appkey;
+
+	//vec.assign(arr, arr+len);
+
+
+
 
 	g_cacheLocation = g_options.cacheDir + "/cache";
 	g_settingsLocation = g_options.cacheDir + "/settings";

@@ -120,8 +120,12 @@ std::string Options::parse( std::vector<std::string>& _args )
 
 	appkeyFilename			= optionArgs[eAppKey].empty() ? std::string() : optionArgs[eAppKey].front();
 
+	appkeyFilename			= optionArgs[eAppKey].empty() ? std::string("spotify_appkey.key") : optionArgs[eAppKey].front();
+
+	/*
 	if( appkeyFilename.empty() )
 		return "Please provide the file name of your Spotify application key";
+	*/
 
 	cacheDir				= optionArgs[eCacheDir].empty() ? std::string("spotiload") : optionArgs[eCacheDir].front();
 	musicDir				= optionArgs[eMusicDir].empty() ? std::string("") : optionArgs[eMusicDir].front();
