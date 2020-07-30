@@ -72,4 +72,5 @@ src/external/lame/obj/Release
 *.ini
 *.key
 
+src/spotiload/options.cpp.orig
 src/spotiload/appkey.h

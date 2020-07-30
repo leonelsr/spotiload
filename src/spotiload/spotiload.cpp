@@ -925,6 +925,8 @@ int createTrackListFromLink( TTrackListList& _dst, const std::string& _link )
 	}
 	else
 	{
+		//if (_link.substr(0, 31) == "https://open.spotify.com/track/")
+		//	_link = _link.replace()
 		sp_link* l = sp_link_create_from_string( _link.c_str() );
 
 		if( NULL == l )
@@ -1078,13 +1080,18 @@ int main(int argc, char* argv[])
 
 			std::cout << '"' << input << '"' << std::endl;
 
-			if( input == "quit" || input == "" || input == "exit" )
+			if( input == "quit" || input == "q" || input == "exit" )
 			{
 				LOG( "Quit signal received, terminating...." );
 				break;
 			}
 
-			if( input.substr( 0, 7 ) == "spotify" )
+			if (input.substr(0, 25) == "https://open.spotify.com/") {
+				input.replace(0, 25, "spotify:");
+				std::replace(input.begin(), input.end(), '/', ':'); // replace all '/' to ':'
+			}
+
+			if( input.substr( 0, 7 ) == "spotify")
 			{
 				TTrackListList trackQueue;
 
@@ -1101,7 +1108,7 @@ int main(int argc, char* argv[])
 					}
 				}
 			}
-			else
+			else // if (input != "")
 			{
 				LOG( "Invalid input '" << input << "'" );
 			}

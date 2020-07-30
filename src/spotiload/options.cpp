@@ -50,6 +50,17 @@ Options::Options() : useCache(false)
 {
 }
 
+std::string prompt() {
+	char buf[256];
+	fgets(buf, sizeof(buf) - 1, stdin);
+
+	std::string input = buf;
+	while (!input.empty() && (input[input.size() - 1] == '\r' || input[input.size() - 1] == '\n'))
+		input = input.substr(0, input.size() - 1);
+
+	return input;
+}
+
 // _____________________________________________________________________________
 // parse
 //
@@ -104,21 +115,46 @@ std::string Options::parse( std::vector<std::string>& _args )
 		}
 	}
 
+	/*
 	if( optionArgs[eSpotifyUsername].empty() )
 		return "Please provide Spotify username";
 	if( optionArgs[eSpotifyPassword].empty() )
 		return "Please provide Spotify password";
+	*/
 
 	useCache				= !optionArgs[eUseCache].empty();
 
+	/*
 	spotifyUsername			= optionArgs[eSpotifyUsername].front();
 	spotifyPassword			= optionArgs[eSpotifyPassword].front();
+	*/
+
+//	spotifyUsername	=	optionArgs[eSpotifyUsername].empty() ? std::string("user") : optionArgs[eSpotifyUsername].front();
+//	spotifyPassword	=	optionArgs[eSpotifyPassword].empty() ? std::string("password") : optionArgs[eSpotifyPassword].front();
+
+	if (optionArgs[eSpotifyUsername].empty()) {
+		std::cout << "Username: ";
+		spotifyUsername = prompt();
+	}
+	else
+		spotifyUsername = optionArgs[eSpotifyUsername].front();
+
+	if (optionArgs[eSpotifyPassword].empty()) {
+		std::cout << "Password: ";
+		spotifyPassword = prompt();
+	}
+	else
+		spotifyPassword = optionArgs[eSpotifyPassword].front();
+	
+		//printf();
+//	if (optionArgs[eSpotifyPassword].empty())
+//		return "Please provide Spotify password";
+
 
 	overwriteExistingTracks	= !optionArgs[eOverwriteExistingTracks].empty();
 
 	downloadLinks.insert( downloadLinks.begin(), optionArgs[eDownloadLink].begin(), optionArgs[eDownloadLink].end() );
 
-	appkeyFilename			= optionArgs[eAppKey].empty() ? std::string() : optionArgs[eAppKey].front();
 
 	appkeyFilename			= optionArgs[eAppKey].empty() ? std::string("spotify_appkey.key") : optionArgs[eAppKey].front();
 

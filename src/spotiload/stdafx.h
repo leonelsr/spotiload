@@ -36,6 +36,7 @@ static int _mkdir( const char* _dir )
 {
 	return ::mkdir( _dir, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
 }
+#include <unistd.h>
 #define _getcwd getcwd
 #endif
 
@@ -86,3 +87,4 @@ static bool createDirectory( const std::string& _name )
 
 #include "../external/ptypes/include/pasync.h"
 #include "../external/ptypes/include/ptime.h"
+
